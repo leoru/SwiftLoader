@@ -1,0 +1,275 @@
+//
+//  BSLoader.swift
+//  Brainstorage
+//
+//  Created by Kirill Kunst on 07.02.15.
+//  Copyright (c) 2015 Kirill Kunst. All rights reserved.
+//
+
+import UIKit
+import QuartzCore
+import CoreGraphics
+
+let loaderSpinnerMarginSide : CGFloat = 35.0
+let loaderSpinnerMarginTop : CGFloat = 20.0
+let loaderTitleMargin : CGFloat = 5.0
+
+class SwiftLoader: UIView {
+
+    private var titleLabel : UILabel?
+    private var loadingView : SwiftLoadingView?
+    private var animated : Bool?
+    private var canUpdated = false
+    private var title: String?
+    
+    private var config : Config = Config() {
+        didSet {
+            self.loadingView?.config = config
+        }
+    }
+    
+    override var frame : CGRect {
+        didSet {
+            self.update()
+        }
+    }
+    
+    class var sharedInstance: SwiftLoader {
+        struct Singleton {
+            static let instance = SwiftLoader(frame: CGRectMake(0,0,Config().size,Config().size))
+        }
+        return Singleton.instance
+    }
+    
+    class func show(#animated: Bool) {
+        self.show(title: nil, animated: animated)
+    }
+    
+    class func show(#title: String?, animated : Bool) {
+        var currentWindow : UIWindow = UIApplication.sharedApplication().windows.last as UIWindow
+        
+        let loader = SwiftLoader.sharedInstance
+        loader.canUpdated = true
+        loader.animated = animated
+        loader.title = title
+        loader.update()
+        
+        var height : CGFloat = UIScreen.mainScreen().bounds.size.height
+        var width : CGFloat = UIScreen.mainScreen().bounds.size.width
+        var center : CGPoint = CGPointMake(width / 2.0, height / 2.0)
+        loader.center = center
+        
+        if (loader.superview == nil) {
+            currentWindow.addSubview(loader)
+            loader.start()
+        }
+    }
+
+    class func hide() {
+        let loader = SwiftLoader.sharedInstance
+        loader.stop()
+    }
+    
+    class func setConfig(config : Config) {
+        let loader = SwiftLoader.sharedInstance
+        loader.config = config
+        loader.frame = CGRectMake(0,0,loader.config.size,loader.config.size)
+    }
+    
+    /**
+    Private methods
+    */
+    
+    private func setup() {
+        self.alpha = 0
+        self.update()
+    }
+    
+    private func start() {
+        self.loadingView?.start()
+        
+        if (self.animated!) {
+            UIView.animateWithDuration(0.3, animations: { () -> Void in
+                self.alpha = 1
+            }, completion: { (finished) -> Void in
+                
+            });
+        } else {
+            self.alpha = 1
+        }
+    }
+    
+    private func stop() {
+        
+        if (self.animated!) {
+            UIView.animateWithDuration(0.3, animations: { () -> Void in
+                self.alpha = 0
+                }, completion: { (finished) -> Void in
+                    self.removeFromSuperview()
+                    self.loadingView?.stop()
+            });
+        } else {
+            self.alpha = 0
+            self.removeFromSuperview()
+            self.loadingView?.stop()
+        }
+    }
+    
+    private func update() {
+        self.backgroundColor = self.config.backgroundColor
+        self.layer.cornerRadius = self.config.cornerRadius
+        var loadingViewSize = self.frame.size.width - (loaderSpinnerMarginSide * 2)
+        
+        if (self.loadingView == nil) {
+            self.loadingView = SwiftLoadingView(frame: self.frameForSpinner())
+            self.addSubview(self.loadingView!)
+        } else {
+            self.loadingView?.frame = self.frameForSpinner()
+        }
+        
+        if (self.titleLabel == nil) {
+            self.titleLabel = UILabel(frame: CGRectMake(loaderTitleMargin, loaderSpinnerMarginTop + loadingViewSize, self.frame.width - loaderTitleMargin*2, 42.0))
+            self.addSubview(self.titleLabel!)
+            self.titleLabel?.numberOfLines = 1
+            self.titleLabel?.textAlignment = NSTextAlignment.Center
+            self.titleLabel?.adjustsFontSizeToFitWidth = true
+        } else {
+            self.titleLabel?.frame = CGRectMake(loaderTitleMargin, loaderSpinnerMarginTop + loadingViewSize, self.frame.width - loaderTitleMargin*2, 42.0)
+        }
+        
+        self.titleLabel?.font = self.config.titleTextFont
+        self.titleLabel?.textColor = self.config.titleTextColor
+        self.titleLabel?.text = self.title
+        
+        self.titleLabel?.hidden = self.title == nil
+    }
+    
+    func frameForSpinner() -> CGRect {
+        var loadingViewSize = self.frame.size.width - (loaderSpinnerMarginSide * 2)
+        
+        if (self.title == nil) {
+            var yOffset = (self.frame.size.height - loadingViewSize) / 2
+            return CGRectMake(loaderSpinnerMarginSide, yOffset, loadingViewSize, loadingViewSize)
+        }
+        return CGRectMake(loaderSpinnerMarginSide, loaderSpinnerMarginTop, loadingViewSize, loadingViewSize)
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.setup()
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    /**
+    *  Loader View
+    */
+    class SwiftLoadingView : UIView {
+        
+        private var lineWidth : Float?
+        private var lineTintColor : UIColor?
+        private var backgroundLayer : CAShapeLayer?
+        private var isSpinning : Bool?
+        
+        private var config : Config = Config() {
+            didSet {
+                self.update()
+            }
+        }
+        
+        override init(frame: CGRect) {
+            super.init(frame: frame)
+            self.setup()
+        }
+        
+        required init(coder aDecoder: NSCoder) {
+            super.init(coder: aDecoder)
+        }
+        
+        /**
+        Setup loading view
+        */
+        
+        private func setup() {
+            self.backgroundColor = UIColor.clearColor()
+            self.lineWidth = fmaxf(Float(self.frame.size.width) * 0.025, 1)
+            
+            self.backgroundLayer = CAShapeLayer()
+            self.backgroundLayer?.strokeColor = self.config.spinnerColor.CGColor
+            self.backgroundLayer?.fillColor = self.backgroundColor?.CGColor
+            self.backgroundLayer?.lineCap = kCALineCapRound
+            self.backgroundLayer?.lineWidth = CGFloat(self.lineWidth!)
+            self.layer.addSublayer(self.backgroundLayer!)
+        }
+        
+        private func update() {
+            self.backgroundLayer?.strokeColor = self.config.spinnerColor.CGColor
+        }
+        
+        /**
+        Draw Circle
+        */
+        
+        override func drawRect(rect: CGRect) {
+            self.backgroundLayer?.frame = self.bounds
+        }
+        
+        private func drawBackgroundCircle(partial : Bool) {
+            var startAngle : CGFloat = CGFloat(M_PI) / CGFloat(2.0)
+            var endAngle : CGFloat = (2.0 * CGFloat(M_PI)) + startAngle
+            
+            var center : CGPoint = CGPointMake(self.bounds.size.width / 2, self.bounds.size.height / 2)
+            var radius : CGFloat = (CGFloat(self.bounds.size.width) - CGFloat(self.lineWidth!)) / CGFloat(2.0)
+            
+            var processBackgroundPath : UIBezierPath = UIBezierPath()
+            processBackgroundPath.lineWidth = CGFloat(self.lineWidth!)
+            
+            if (partial) {
+                endAngle = (1.8 * CGFloat(M_PI)) + startAngle
+            }
+            
+            processBackgroundPath.addArcWithCenter(center, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: true)
+            self.backgroundLayer?.path = processBackgroundPath.CGPath;
+        }
+        
+        /**
+        Start and stop spinning
+        */
+        
+        private func start() {
+            self.isSpinning? = true
+            self.drawBackgroundCircle(true)
+            
+            var rotationAnimation : CABasicAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
+            rotationAnimation.toValue = NSNumber(double: M_PI * 2.0)
+            rotationAnimation.duration = 1;
+            rotationAnimation.cumulative = true;
+            rotationAnimation.repeatCount = HUGE;
+            self.backgroundLayer?.addAnimation(rotationAnimation, forKey: "rotationAnimation")
+        }
+        
+        private func stop() {
+            self.drawBackgroundCircle(false)
+            
+            self.backgroundLayer?.removeAllAnimations()
+            self.isSpinning? = false
+        }
+    }
+    
+    
+    /**
+    * Loader config
+    */
+    struct Config {
+        
+        var size : CGFloat = 120.0
+        var spinnerColor = UIColor.blackColor()
+        var titleTextColor = UIColor.blackColor()
+        var backgroundColor = UIColor.whiteColor()
+        var cornerRadius : CGFloat = 10.0
+        var titleTextFont : UIFont = UIFont.boldSystemFontOfSize(16.0)
+        
+    }
+}
