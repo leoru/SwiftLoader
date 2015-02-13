@@ -41,6 +41,15 @@ and set new config for SwiftLoader:
   SwiftLoader.setConfig(config)
 ```
 
+#### Current available params:
+
+* size - Size of loader
+* spinnerColor - Color of spinner view
+* titleTextColor - Color of title text
+* titleTextFont - Font of title text
+* backgroundColor - Background color for loader
+* cornerRadius - Radius of corners of loader
+
 
 ## Install
 SwiftSpinner is available through CocoaPods. To install it, simply add the following line to your Podfile:
