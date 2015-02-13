@@ -21,14 +21,14 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = UIColor(red:0.88, green:0.9, blue:0.92, alpha:1)
+        self.view.backgroundColor = UIColor(red:0.98, green:0.93, blue:0.81, alpha:1)
         self.addButton()
     }
     
     func addButton() {
         let size : CGFloat = 200.0
         var actionButton = UIButton(frame: CGRectMake((self.view.frame.width - size) / 2, size, size, size))
-        actionButton.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+        actionButton.setTitleColor(UIColor(red:0.52, green:0.07, blue:0.72, alpha:1), forState: UIControlState.Normal)
         actionButton.addTarget(self, action: Selector("actionShowLoader"), forControlEvents: UIControlEvents.TouchUpInside)
         actionButton.setTitle("Show loader", forState: UIControlState.Normal)
         self.view.addSubview(actionButton)
@@ -37,7 +37,12 @@ class ViewController: UIViewController {
     func actionShowLoader() {
         
         var config : SwiftLoader.Config = SwiftLoader.Config()
-        config.size = 150
+        config.size = 170
+        config.backgroundColor = UIColor(red:0.03, green:0.82, blue:0.7, alpha:1)
+        config.spinnerColor = UIColor(red:0.88, green:0.26, blue:0.18, alpha:1)
+        config.titleTextColor = UIColor(red:0.88, green:0.26, blue:0.18, alpha:1)
+        config.spinnerLineWidth = 2.0
+        
         SwiftLoader.setConfig(config)
         
         SwiftLoader.show(animated: true)

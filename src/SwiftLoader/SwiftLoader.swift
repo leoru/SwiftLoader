@@ -205,6 +205,9 @@ class SwiftLoader: UIView {
         }
         
         private func update() {
+            self.lineWidth = self.config.spinnerLineWidth
+            
+            self.backgroundLayer?.lineWidth = CGFloat(self.lineWidth!)
             self.backgroundLayer?.strokeColor = self.config.spinnerColor.CGColor
         }
         
@@ -273,6 +276,11 @@ class SwiftLoader: UIView {
         *  Color of spinner view
         */
         var spinnerColor = UIColor.blackColor()
+        
+        /**
+        *  S
+        */
+        var spinnerLineWidth :Float = 1.0
         
         /**
         *  Color of title text
