@@ -264,12 +264,35 @@ class SwiftLoader: UIView {
     */
     struct Config {
         
+        /**
+        *  Size of loader
+        */
         var size : CGFloat = 120.0
+        
+        /**
+        *  Color of spinner view
+        */
         var spinnerColor = UIColor.blackColor()
+        
+        /**
+        *  Color of title text
+        */
         var titleTextColor = UIColor.blackColor()
-        var backgroundColor = UIColor.whiteColor()
-        var cornerRadius : CGFloat = 10.0
+        
+        /**
+        *  Font for title text in loader
+        */
         var titleTextFont : UIFont = UIFont.boldSystemFontOfSize(16.0)
         
+        /**
+        *  Background color for loader
+        */
+        var backgroundColor = UIColor.whiteColor()
+        
+        /**
+        *  Corner radius for loader
+        */
+        var cornerRadius : CGFloat = 10.0
+
     }
 }
