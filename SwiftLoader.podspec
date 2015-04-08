@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "SwiftLoader"
-  s.version          = "0.1.0"
+  s.version          = "0.1.1"
   s.summary          = "A simple and beautiful activity indicator"
   s.description      = <<-DESC
   SwiftLoader is a simple and beautiful activity indicator written in Swift.
