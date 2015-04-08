@@ -16,6 +16,7 @@ let loaderTitleMargin : CGFloat = 5.0
 
 class SwiftLoader: UIView {
 
+    private var coverView : UIView?
     private var titleLabel : UILabel?
     private var loadingView : SwiftLoadingView?
     private var animated : Bool?
@@ -46,7 +47,7 @@ class SwiftLoader: UIView {
     }
     
     class func show(#title: String?, animated : Bool) {
-        var currentWindow : UIWindow = UIApplication.sharedApplication().windows.last as UIWindow
+        var currentWindow : UIWindow = UIApplication.sharedApplication().keyWindow!
         
         let loader = SwiftLoader.sharedInstance
         loader.canUpdated = true
@@ -59,9 +60,15 @@ class SwiftLoader: UIView {
         var center : CGPoint = CGPointMake(width / 2.0, height / 2.0)
         loader.center = center
         
+        loader.coverView = UIView(frame: currentWindow.bounds)
+        loader.coverView?.backgroundColor = UIColor.clearColor()
+        
         if (loader.superview == nil) {
+            currentWindow.addSubview(loader.coverView!)
             currentWindow.addSubview(loader)
             loader.start()
+        } else {
+            loader.coverView?.removeFromSuperview()
         }
     }
 
@@ -106,11 +113,13 @@ class SwiftLoader: UIView {
                 self.alpha = 0
                 }, completion: { (finished) -> Void in
                     self.removeFromSuperview()
+                    self.coverView?.removeFromSuperview()
                     self.loadingView?.stop()
             });
         } else {
             self.alpha = 0
             self.removeFromSuperview()
+            self.coverView?.removeFromSuperview()
             self.loadingView?.stop()
         }
     }
