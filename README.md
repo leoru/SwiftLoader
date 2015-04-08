@@ -2,7 +2,7 @@
 SwiftLoader is a simple and beautiful activity indicator written in Swift.
 
 ###Example
-<img src="https://raw.githubusercontent.com/leoru/SwiftLoader/master/images/loader.gif">
+<img src="https://raw.githubusercontent.com/leoru/SwiftLoader/master/images/loadergif.gif">
 
 
 ## Usage
@@ -45,6 +45,7 @@ and set new config for SwiftLoader:
 
 * size - Size of loader
 * spinnerColor - Color of spinner view
+* spinnerLineWidth - Line width of spinner view layer
 * titleTextColor - Color of title text
 * titleTextFont - Font of title text
 * backgroundColor - Background color for loader
