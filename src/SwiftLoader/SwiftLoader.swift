@@ -14,8 +14,8 @@ let loaderSpinnerMarginSide : CGFloat = 35.0
 let loaderSpinnerMarginTop : CGFloat = 20.0
 let loaderTitleMargin : CGFloat = 5.0
 
-class SwiftLoader: UIView {
-
+public class SwiftLoader: UIView {
+    
     private var coverView : UIView?
     private var titleLabel : UILabel?
     private var loadingView : SwiftLoadingView?
@@ -29,7 +29,7 @@ class SwiftLoader: UIView {
         }
     }
     
-    override var frame : CGRect {
+    override public var frame : CGRect {
         didSet {
             self.update()
         }
@@ -42,11 +42,11 @@ class SwiftLoader: UIView {
         return Singleton.instance
     }
     
-    class func show(#animated: Bool) {
+    public class func show(#animated: Bool) {
         self.show(title: nil, animated: animated)
     }
     
-    class func show(#title: String?, animated : Bool) {
+    public class func show(#title: String?, animated : Bool) {
         var currentWindow : UIWindow = UIApplication.sharedApplication().keyWindow!
         
         let loader = SwiftLoader.sharedInstance
@@ -71,13 +71,13 @@ class SwiftLoader: UIView {
             loader.coverView?.removeFromSuperview()
         }
     }
-
-    class func hide() {
+    
+    public class func hide() {
         let loader = SwiftLoader.sharedInstance
         loader.stop()
     }
     
-    class func setConfig(config : Config) {
+    public class func setConfig(config : Config) {
         let loader = SwiftLoader.sharedInstance
         loader.config = config
         loader.frame = CGRectMake(0,0,loader.config.size,loader.config.size)
@@ -98,8 +98,8 @@ class SwiftLoader: UIView {
         if (self.animated!) {
             UIView.animateWithDuration(0.3, animations: { () -> Void in
                 self.alpha = 1
-            }, completion: { (finished) -> Void in
-                
+                }, completion: { (finished) -> Void in
+                    
             });
         } else {
             self.alpha = 1
@@ -168,7 +168,7 @@ class SwiftLoader: UIView {
         self.setup()
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required public init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
@@ -274,7 +274,7 @@ class SwiftLoader: UIView {
     /**
     * Loader config
     */
-    struct Config {
+    public struct Config {
         
         /**
         *  Size of loader
@@ -310,6 +310,6 @@ class SwiftLoader: UIView {
         *  Corner radius for loader
         */
         var cornerRadius : CGFloat = 10.0
-
+        
     }
 }
