@@ -279,37 +279,37 @@ public class SwiftLoader: UIView {
         /**
         *  Size of loader
         */
-        var size : CGFloat = 120.0
+        public var size : CGFloat = 120.0
         
         /**
         *  Color of spinner view
         */
-        var spinnerColor = UIColor.blackColor()
+        public var spinnerColor = UIColor.blackColor()
         
         /**
         *  S
         */
-        var spinnerLineWidth :Float = 1.0
+        public var spinnerLineWidth :Float = 1.0
         
         /**
         *  Color of title text
         */
-        var titleTextColor = UIColor.blackColor()
+        public var titleTextColor = UIColor.blackColor()
         
         /**
         *  Font for title text in loader
         */
-        var titleTextFont : UIFont = UIFont.boldSystemFontOfSize(16.0)
+        public var titleTextFont : UIFont = UIFont.boldSystemFontOfSize(16.0)
         
         /**
         *  Background color for loader
         */
-        var backgroundColor = UIColor.whiteColor()
+        public var backgroundColor = UIColor.whiteColor()
         
         /**
         *  Corner radius for loader
         */
-        var cornerRadius : CGFloat = 10.0
+        public var cornerRadius : CGFloat = 10.0
         
     }
 }
