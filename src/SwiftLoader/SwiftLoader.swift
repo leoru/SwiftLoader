@@ -311,5 +311,7 @@ public class SwiftLoader: UIView {
         */
         public var cornerRadius : CGFloat = 10.0
         
+        public init() {}
+        
     }
 }
