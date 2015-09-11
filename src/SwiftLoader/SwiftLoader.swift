@@ -42,12 +42,12 @@ public class SwiftLoader: UIView {
         return Singleton.instance
     }
     
-    public class func show(#animated: Bool) {
+    public class func show(animated animated: Bool) {
         self.show(title: nil, animated: animated)
     }
     
-    public class func show(#title: String?, animated : Bool) {
-        var currentWindow : UIWindow = UIApplication.sharedApplication().keyWindow!
+    public class func show(title title: String?, animated : Bool) {
+        let currentWindow : UIWindow = UIApplication.sharedApplication().keyWindow!
         
         let loader = SwiftLoader.sharedInstance
         loader.canUpdated = true
@@ -55,9 +55,9 @@ public class SwiftLoader: UIView {
         loader.title = title
         loader.update()
         
-        var height : CGFloat = UIScreen.mainScreen().bounds.size.height
-        var width : CGFloat = UIScreen.mainScreen().bounds.size.width
-        var center : CGPoint = CGPointMake(width / 2.0, height / 2.0)
+        let height : CGFloat = UIScreen.mainScreen().bounds.size.height
+        let width : CGFloat = UIScreen.mainScreen().bounds.size.width
+        let center : CGPoint = CGPointMake(width / 2.0, height / 2.0)
         loader.center = center
         
         loader.coverView = UIView(frame: currentWindow.bounds)
@@ -127,7 +127,7 @@ public class SwiftLoader: UIView {
     private func update() {
         self.backgroundColor = self.config.backgroundColor
         self.layer.cornerRadius = self.config.cornerRadius
-        var loadingViewSize = self.frame.size.width - (loaderSpinnerMarginSide * 2)
+        let loadingViewSize = self.frame.size.width - (loaderSpinnerMarginSide * 2)
         
         if (self.loadingView == nil) {
             self.loadingView = SwiftLoadingView(frame: self.frameForSpinner())
@@ -154,10 +154,10 @@ public class SwiftLoader: UIView {
     }
     
     func frameForSpinner() -> CGRect {
-        var loadingViewSize = self.frame.size.width - (loaderSpinnerMarginSide * 2)
+        let loadingViewSize = self.frame.size.width - (loaderSpinnerMarginSide * 2)
         
         if (self.title == nil) {
-            var yOffset = (self.frame.size.height - loadingViewSize) / 2
+            let yOffset = (self.frame.size.height - loadingViewSize) / 2
             return CGRectMake(loaderSpinnerMarginSide, yOffset, loadingViewSize, loadingViewSize)
         }
         return CGRectMake(loaderSpinnerMarginSide, loaderSpinnerMarginTop, loadingViewSize, loadingViewSize)
@@ -168,7 +168,7 @@ public class SwiftLoader: UIView {
         self.setup()
     }
     
-    required public init(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
@@ -193,7 +193,7 @@ public class SwiftLoader: UIView {
             self.setup()
         }
         
-        required init(coder aDecoder: NSCoder) {
+        required init?(coder aDecoder: NSCoder) {
             super.init(coder: aDecoder)
         }
         
@@ -229,13 +229,13 @@ public class SwiftLoader: UIView {
         }
         
         private func drawBackgroundCircle(partial : Bool) {
-            var startAngle : CGFloat = CGFloat(M_PI) / CGFloat(2.0)
+            let startAngle : CGFloat = CGFloat(M_PI) / CGFloat(2.0)
             var endAngle : CGFloat = (2.0 * CGFloat(M_PI)) + startAngle
             
-            var center : CGPoint = CGPointMake(self.bounds.size.width / 2, self.bounds.size.height / 2)
-            var radius : CGFloat = (CGFloat(self.bounds.size.width) - CGFloat(self.lineWidth!)) / CGFloat(2.0)
+            let center : CGPoint = CGPointMake(self.bounds.size.width / 2, self.bounds.size.height / 2)
+            let radius : CGFloat = (CGFloat(self.bounds.size.width) - CGFloat(self.lineWidth!)) / CGFloat(2.0)
             
-            var processBackgroundPath : UIBezierPath = UIBezierPath()
+            let processBackgroundPath : UIBezierPath = UIBezierPath()
             processBackgroundPath.lineWidth = CGFloat(self.lineWidth!)
             
             if (partial) {
@@ -254,7 +254,7 @@ public class SwiftLoader: UIView {
             self.isSpinning? = true
             self.drawBackgroundCircle(true)
             
-            var rotationAnimation : CABasicAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
+            let rotationAnimation : CABasicAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
             rotationAnimation.toValue = NSNumber(double: M_PI * 2.0)
             rotationAnimation.duration = 1;
             rotationAnimation.cumulative = true;
