@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    func delay(#seconds: Double, completion:()->()) {
+    func delay(seconds seconds: Double, completion:()->()) {
         let popTime = dispatch_time(DISPATCH_TIME_NOW, Int64( Double(NSEC_PER_SEC) * seconds ))
         
         dispatch_after(popTime, dispatch_get_main_queue()) {
@@ -27,7 +27,7 @@ class ViewController: UIViewController {
     
     func addButton() {
         let size : CGFloat = 200.0
-        var actionButton = UIButton(frame: CGRectMake((self.view.frame.width - size) / 2, size, size, size))
+        let actionButton = UIButton(frame: CGRectMake((self.view.frame.width - size) / 2, size, size, size))
         actionButton.setTitleColor(UIColor(red:0.52, green:0.07, blue:0.72, alpha:1), forState: UIControlState.Normal)
         actionButton.addTarget(self, action: Selector("actionShowLoader"), forControlEvents: UIControlEvents.TouchUpInside)
         actionButton.setTitle("Show loader", forState: UIControlState.Normal)
