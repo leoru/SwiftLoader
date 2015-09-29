@@ -61,7 +61,7 @@ public class SwiftLoader: UIView {
         loader.center = center
         
         loader.coverView = UIView(frame: currentWindow.bounds)
-        loader.coverView?.backgroundColor = UIColor.clearColor()
+        loader.coverView?.backgroundColor = loader.config.foregroundColor.colorWithAlphaComponent(loader.config.foregroundAlpha)
         
         if (loader.superview == nil) {
             currentWindow.addSubview(loader.coverView!)
@@ -305,6 +305,16 @@ public class SwiftLoader: UIView {
         *  Background color for loader
         */
         public var backgroundColor = UIColor.whiteColor()
+        
+        /**
+        *  Foreground color
+        */
+        public var foregroundColor = UIColor.clearColor()
+        
+        /**
+        *  Foreground alpha CGFloat, between 0.0 and 1.0
+        */
+        public var foregroundAlpha:CGFloat = 0.0
         
         /**
         *  Corner radius for loader
