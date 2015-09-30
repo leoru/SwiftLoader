@@ -42,6 +42,9 @@ class ViewController: UIViewController {
         config.spinnerColor = UIColor(red:0.88, green:0.26, blue:0.18, alpha:1)
         config.titleTextColor = UIColor(red:0.88, green:0.26, blue:0.18, alpha:1)
         config.spinnerLineWidth = 2.0
+        config.foregroundColor = UIColor.blackColor()
+        config.foregroundAlpha = 0.5
+        
         
         SwiftLoader.setConfig(config)
         
