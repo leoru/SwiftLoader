@@ -34,7 +34,9 @@ You need to create SwiftLoader.Config object, set params:
 ```swift
   var config : SwiftLoader.Config = SwiftLoader.Config()
   config.size = 150
-  config.spinnerColor = UIColor.redColor()
+  config.spinnerColor = .redColor()
+  config.foregroundColor = .blackColor()
+  config.foregroundAlpha = 0.5
 ```
 and set new config for SwiftLoader:
 ```swift
@@ -49,7 +51,9 @@ and set new config for SwiftLoader:
 * titleTextColor - Color of title text
 * titleTextFont - Font of title text
 * backgroundColor - Background color for loader
+* foregroundColor - Foreground color for loader
 * cornerRadius - Radius of corners of loader
+* foregroundAlpha - Alpha property for foreground
 
 
 ## Install
