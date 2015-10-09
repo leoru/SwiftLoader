@@ -19,7 +19,7 @@ public class SwiftLoader: UIView {
     private var coverView : UIView?
     private var titleLabel : UILabel?
     private var loadingView : SwiftLoadingView?
-    private var animated : Bool?
+    private var animated : Bool = true
     private var canUpdated = false
     private var title: String?
     
@@ -47,6 +47,7 @@ public class SwiftLoader: UIView {
     }
     
     public class func show(title title: String?, animated : Bool) {
+        
         let currentWindow : UIWindow = UIApplication.sharedApplication().keyWindow!
         
         let loader = SwiftLoader.sharedInstance
@@ -58,17 +59,16 @@ public class SwiftLoader: UIView {
         let height : CGFloat = UIScreen.mainScreen().bounds.size.height
         let width : CGFloat = UIScreen.mainScreen().bounds.size.width
         let center : CGPoint = CGPointMake(width / 2.0, height / 2.0)
+        
         loader.center = center
         
-        loader.coverView = UIView(frame: currentWindow.bounds)
-        loader.coverView?.backgroundColor = loader.config.foregroundColor.colorWithAlphaComponent(loader.config.foregroundAlpha)
-        
         if (loader.superview == nil) {
+            loader.coverView = UIView(frame: currentWindow.bounds)
+            loader.coverView?.backgroundColor = loader.config.foregroundColor.colorWithAlphaComponent(loader.config.foregroundAlpha)
+            
             currentWindow.addSubview(loader.coverView!)
             currentWindow.addSubview(loader)
             loader.start()
-        } else {
-            loader.coverView?.removeFromSuperview()
         }
     }
     
@@ -95,7 +95,7 @@ public class SwiftLoader: UIView {
     private func start() {
         self.loadingView?.start()
         
-        if (self.animated!) {
+        if (self.animated) {
             UIView.animateWithDuration(0.3, animations: { () -> Void in
                 self.alpha = 1
                 }, completion: { (finished) -> Void in
@@ -108,7 +108,7 @@ public class SwiftLoader: UIView {
     
     private func stop() {
         
-        if (self.animated!) {
+        if (self.animated) {
             UIView.animateWithDuration(0.3, animations: { () -> Void in
                 self.alpha = 0
                 }, completion: { (finished) -> Void in
