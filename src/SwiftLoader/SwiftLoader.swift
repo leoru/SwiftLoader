@@ -43,12 +43,19 @@ public class SwiftLoader: UIView {
         return Singleton.instance
     }
     
-    public class func show(animated animated: Bool) {
-        self.show(title: nil, animated: animated)
+    public class func show(animated: Bool) {
+        self.show(nil, animated: animated, topMargin: 0)
     }
     
-    public class func show(title title: String?, animated : Bool) {
-        
+    public class func show(animated: Bool, topMargin: Int) {
+        self.show(nil, animated: animated, topMargin: topMargin)
+    }
+    
+    public class func show(title: String?, animated: Bool) {
+        self.show(title, animated: animated, topMargin: 0)
+    }
+    
+    public class func show(title: String?, animated: Bool, topMargin: Int) {
         let currentWindow : UIWindow = UIApplication.sharedApplication().keyWindow!
         
         let loader = SwiftLoader.sharedInstance
@@ -59,8 +66,7 @@ public class SwiftLoader: UIView {
         
         let height : CGFloat = UIScreen.mainScreen().bounds.size.height
         let width : CGFloat = UIScreen.mainScreen().bounds.size.width
-        let center : CGPoint = CGPointMake(width / 2.0, height / 2.0)
-        
+        let center : CGPoint = CGPointMake(width / 2.0, height / 2.0 - CGFloat(topMargin))
         loader.center = center
         
         if (loader.superview == nil) {
