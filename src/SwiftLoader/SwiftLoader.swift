@@ -81,7 +81,7 @@ public class SwiftLoader: UIView {
     public class func setConfig(config : Config) {
         let loader = SwiftLoader.sharedInstance
         loader.config = config
-        loader.frame = CGRectMake(0,0,loader.config.size,loader.config.size)
+        loader.frame = CGRectMake(0, 0, loader.config.size, loader.config.size)
     }
     
     /**
@@ -290,8 +290,8 @@ public class SwiftLoader: UIView {
         public var spinnerColor = UIColor.blackColor()
         
         /**
-        *  S
-        */
+         *  Spinner Line Width
+         */
         public var spinnerLineWidth :Float = 1.0
         
         /**
