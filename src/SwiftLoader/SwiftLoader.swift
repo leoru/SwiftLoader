@@ -22,6 +22,7 @@ public class SwiftLoader: UIView {
     private var animated : Bool = true
     private var canUpdated = false
     private var title: String?
+    private var speed = 1
     
     private var config : Config = Config() {
         didSet {
@@ -177,6 +178,7 @@ public class SwiftLoader: UIView {
     */
     class SwiftLoadingView : UIView {
         
+        private var speed : Int?
         private var lineWidth : Float?
         private var lineTintColor : UIColor?
         private var backgroundLayer : CAShapeLayer?
@@ -215,6 +217,7 @@ public class SwiftLoader: UIView {
         
         private func update() {
             self.lineWidth = self.config.spinnerLineWidth
+            self.speed = self.config.speed
             
             self.backgroundLayer?.lineWidth = CGFloat(self.lineWidth!)
             self.backgroundLayer?.strokeColor = self.config.spinnerColor.CGColor
@@ -256,7 +259,7 @@ public class SwiftLoader: UIView {
             
             let rotationAnimation : CABasicAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
             rotationAnimation.toValue = NSNumber(double: M_PI * 2.0)
-            rotationAnimation.duration = 1;
+            rotationAnimation.duration = CFTimeInterval(speed!);
             rotationAnimation.cumulative = true;
             rotationAnimation.repeatCount = HUGE;
             self.backgroundLayer?.addAnimation(rotationAnimation, forKey: "rotationAnimation")
@@ -295,6 +298,11 @@ public class SwiftLoader: UIView {
         *  Color of title text
         */
         public var titleTextColor = UIColor.blackColor()
+        
+         /**
+         *  Speed of the spinner
+         */
+        public var speed :Int = 1
         
         /**
         *  Font for title text in loader
