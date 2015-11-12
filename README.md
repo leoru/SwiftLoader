@@ -45,7 +45,7 @@ SwiftLoader has simple configuration system.
 
 You need to create SwiftLoader.Config object, set params:
 ```swift
-  var config : SwiftLoader.Config = SwiftLoader.Config()
+  let config = SwiftLoaderConfig()
   config.size = 150
   config.spinnerColor = .redColor()
   config.foregroundColor = .blackColor()
