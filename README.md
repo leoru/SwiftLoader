@@ -23,12 +23,22 @@ import SwiftLoader
 
 Show SwiftLoader without text:
 ```swift
-  SwiftLoader.show(animated: true)
+  SwiftLoader.show(animated: true)    
+```
+
+Show SwiftLoader without text and a top margin: 
+```swift
+	SwiftLoader.show(animated: true, topMargin: 20)
 ```
 
 Show SwiftLoader with text: 
 ```swift
-  SwiftLoader.show(title: "Loading...", animated: true)
+  SwiftLoader.show(animated: true, title: "Loading...")
+```
+
+Show SwiftLoader with text and a top margin: 
+```swift
+	SwiftLoader.show(animated: true, title: "Loading...", topMargin: 20)
 ```
 
 Hide SwiftLoader:
