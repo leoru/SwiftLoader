@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3705F5E11BF400DA0048AE72 /* SwiftLoaderConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3705F5DF1BF400DA0048AE72 /* SwiftLoaderConfig.swift */; };
+		3705F5E21BF400DA0048AE72 /* SwiftLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3705F5E01BF400DA0048AE72 /* SwiftLoadingView.swift */; };
 		6A7E7AFD1A8B62AB00B7F3B2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7E7AFC1A8B62AB00B7F3B2 /* AppDelegate.swift */; };
 		6A7E7AFF1A8B62AB00B7F3B2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7E7AFE1A8B62AB00B7F3B2 /* ViewController.swift */; };
 		6A7E7B041A8B62AB00B7F3B2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A7E7B031A8B62AB00B7F3B2 /* Images.xcassets */; };
@@ -15,6 +17,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3705F5DF1BF400DA0048AE72 /* SwiftLoaderConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftLoaderConfig.swift; sourceTree = "<group>"; };
+		3705F5E01BF400DA0048AE72 /* SwiftLoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftLoadingView.swift; sourceTree = "<group>"; };
 		6A7E7AF71A8B62AB00B7F3B2 /* SwiftLoaderExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftLoaderExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A7E7AFB1A8B62AB00B7F3B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6A7E7AFC1A8B62AB00B7F3B2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -76,6 +80,8 @@
 			isa = PBXGroup;
 			children = (
 				6A7E7B1D1A8B62B700B7F3B2 /* SwiftLoader.swift */,
+				3705F5DF1BF400DA0048AE72 /* SwiftLoaderConfig.swift */,
+				3705F5E01BF400DA0048AE72 /* SwiftLoadingView.swift */,
 			);
 			name = SwiftLoader;
 			path = ../../../src/SwiftLoader;
@@ -152,9 +158,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3705F5E11BF400DA0048AE72 /* SwiftLoaderConfig.swift in Sources */,
 				6A7E7B1E1A8B62B700B7F3B2 /* SwiftLoader.swift in Sources */,
 				6A7E7AFF1A8B62AB00B7F3B2 /* ViewController.swift in Sources */,
 				6A7E7AFD1A8B62AB00B7F3B2 /* AppDelegate.swift in Sources */,
+				3705F5E21BF400DA0048AE72 /* SwiftLoadingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
