@@ -36,7 +36,7 @@ class ViewController: UIViewController {
     
     func actionShowLoader() {
         
-        var config : SwiftLoader.Config = SwiftLoader.Config()
+        let config = SwiftLoaderConfig()
         config.size = 170
         config.backgroundColor = UIColor(red:0.03, green:0.82, blue:0.7, alpha:1)
         config.spinnerColor = UIColor(red:0.88, green:0.26, blue:0.18, alpha:1)
@@ -51,7 +51,7 @@ class ViewController: UIViewController {
         SwiftLoader.show(animated: true)
         
         delay(seconds: 3.0) { () -> () in
-            SwiftLoader.show(title: "Loading...", animated: true)
+            SwiftLoader.show(animated: true, title: "Loading...")
         }
         delay(seconds: 6.0) { () -> () in
             SwiftLoader.hide()
@@ -59,6 +59,4 @@ class ViewController: UIViewController {
         
     }
     
-    
 }
-
