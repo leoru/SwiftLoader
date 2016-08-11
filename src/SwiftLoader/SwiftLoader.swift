@@ -36,6 +36,20 @@ public class SwiftLoader: UIView {
         }
     }
     
+    override public func layoutSubviews() {
+        
+        super.layoutSubviews()
+        
+        let loader = SwiftLoader.sharedInstance
+        
+        let height : CGFloat = UIScreen.mainScreen().bounds.size.height
+        let width : CGFloat = UIScreen.mainScreen().bounds.size.width
+        let center : CGPoint = CGPoint(x: width / 2.0, y: height / 2.0)
+        
+        loader.center = center
+        loader.coverView?.frame = UIScreen.mainScreen().bounds
+    }
+
     class var sharedInstance: SwiftLoader {
         struct Singleton {
             static let instance = SwiftLoader(frame: CGRectMake(0,0,Config().size,Config().size))
