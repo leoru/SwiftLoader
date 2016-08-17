@@ -22,7 +22,6 @@ public class SwiftLoader: UIView {
     private var animated : Bool = true
     private var canUpdated = false
     private var title: String?
-    private var speed = 1
     
     private var config : Config = Config() {
         didSet {
@@ -30,15 +29,7 @@ public class SwiftLoader: UIView {
         }
     }
     
-    override public var frame : CGRect {
-        didSet {
-            self.update()
-        }
-    }
-    
-    override public func layoutSubviews() {
-        
-        super.layoutSubviews()
+    func rotated(notification: NSNotification) {
         
         let loader = SwiftLoader.sharedInstance
         
@@ -49,7 +40,13 @@ public class SwiftLoader: UIView {
         loader.center = center
         loader.coverView?.frame = UIScreen.mainScreen().bounds
     }
-
+    
+    override public var frame : CGRect {
+        didSet {
+            self.update()
+        }
+    }
+    
     class var sharedInstance: SwiftLoader {
         struct Singleton {
             static let instance = SwiftLoader(frame: CGRectMake(0,0,Config().size,Config().size))
@@ -57,19 +54,14 @@ public class SwiftLoader: UIView {
         return Singleton.instance
     }
     
-    public class func show(animated: Bool) {
-        self.show(nil, animated: animated, topMargin: 0)
+    public class func show(animated animated: Bool) {
+        self.show(title: nil, animated: animated)
     }
     
-    public class func show(animated: Bool, topMargin: Int) {
-        self.show(nil, animated: animated, topMargin: topMargin)
-    }
-    
-    public class func show(title: String?, animated: Bool) {
-        self.show(title, animated: animated, topMargin: 0)
-    }
-    
-    public class func show(title: String?, animated: Bool, topMargin: Int) {
+    public class func show(title title: String?, animated : Bool) {
+        
+        
+        
         let currentWindow : UIWindow = UIApplication.sharedApplication().keyWindow!
         
         let loader = SwiftLoader.sharedInstance
@@ -78,9 +70,14 @@ public class SwiftLoader: UIView {
         loader.title = title
         loader.update()
         
+        NSNotificationCenter.defaultCenter().addObserver(loader, selector: #selector(loader.rotated(_:)),
+                                                         name: UIDeviceOrientationDidChangeNotification,
+                                                         object: nil)
+        
         let height : CGFloat = UIScreen.mainScreen().bounds.size.height
         let width : CGFloat = UIScreen.mainScreen().bounds.size.width
-        let center : CGPoint = CGPointMake(width / 2.0, height / 2.0 - CGFloat(topMargin))
+        let center : CGPoint = CGPointMake(width / 2.0, height / 2.0)
+        
         loader.center = center
         
         if (loader.superview == nil) {
@@ -94,19 +91,22 @@ public class SwiftLoader: UIView {
     }
     
     public class func hide() {
+        
         let loader = SwiftLoader.sharedInstance
+        NSNotificationCenter.defaultCenter().removeObserver(loader)
+        
         loader.stop()
     }
     
     public class func setConfig(config : Config) {
         let loader = SwiftLoader.sharedInstance
         loader.config = config
-        loader.frame = CGRectMake(0, 0, loader.config.size, loader.config.size)
+        loader.frame = CGRectMake(0,0,loader.config.size,loader.config.size)
     }
     
     /**
-    Private methods
-    */
+     Private methods
+     */
     
     private func setup() {
         self.alpha = 0
@@ -194,11 +194,10 @@ public class SwiftLoader: UIView {
     }
     
     /**
-    *  Loader View
-    */
+     *  Loader View
+     */
     class SwiftLoadingView : UIView {
         
-        private var speed : Int?
         private var lineWidth : Float?
         private var lineTintColor : UIColor?
         private var backgroundLayer : CAShapeLayer?
@@ -220,8 +219,8 @@ public class SwiftLoader: UIView {
         }
         
         /**
-        Setup loading view
-        */
+         Setup loading view
+         */
         
         private func setup() {
             self.backgroundColor = UIColor.clearColor()
@@ -237,15 +236,14 @@ public class SwiftLoader: UIView {
         
         private func update() {
             self.lineWidth = self.config.spinnerLineWidth
-            self.speed = self.config.speed
             
             self.backgroundLayer?.lineWidth = CGFloat(self.lineWidth!)
             self.backgroundLayer?.strokeColor = self.config.spinnerColor.CGColor
         }
         
         /**
-        Draw Circle
-        */
+         Draw Circle
+         */
         
         override func drawRect(rect: CGRect) {
             self.backgroundLayer?.frame = self.bounds
@@ -270,8 +268,8 @@ public class SwiftLoader: UIView {
         }
         
         /**
-        Start and stop spinning
-        */
+         Start and stop spinning
+         */
         
         private func start() {
             self.isSpinning? = true
@@ -279,7 +277,7 @@ public class SwiftLoader: UIView {
             
             let rotationAnimation : CABasicAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
             rotationAnimation.toValue = NSNumber(double: M_PI * 2.0)
-            rotationAnimation.duration = CFTimeInterval(speed!);
+            rotationAnimation.duration = 1;
             rotationAnimation.cumulative = true;
             rotationAnimation.repeatCount = HUGE;
             self.backgroundLayer?.addAnimation(rotationAnimation, forKey: "rotationAnimation")
@@ -295,61 +293,57 @@ public class SwiftLoader: UIView {
     
     
     /**
-    * Loader config
-    */
+     * Loader config
+     */
     public struct Config {
         
         /**
-        *  Size of loader
-        */
+         *  Size of loader
+         */
         public var size : CGFloat = 120.0
         
         /**
-        *  Color of spinner view
-        */
+         *  Color of spinner view
+         */
         public var spinnerColor = UIColor.blackColor()
         
         /**
-         *  Spinner Line Width
+         *  S
          */
         public var spinnerLineWidth :Float = 1.0
         
         /**
-        *  Color of title text
-        */
+         *  Color of title text
+         */
         public var titleTextColor = UIColor.blackColor()
         
-         /**
-         *  Speed of the spinner
-         */
-        public var speed :Int = 1
-        
         /**
-        *  Font for title text in loader
-        */
+         *  Font for title text in loader
+         */
         public var titleTextFont : UIFont = UIFont.boldSystemFontOfSize(16.0)
         
         /**
-        *  Background color for loader
-        */
+         *  Background color for loader
+         */
         public var backgroundColor = UIColor.whiteColor()
         
         /**
-        *  Foreground color
-        */
+         *  Foreground color
+         */
         public var foregroundColor = UIColor.clearColor()
         
         /**
-        *  Foreground alpha CGFloat, between 0.0 and 1.0
-        */
+         *  Foreground alpha CGFloat, between 0.0 and 1.0
+         */
         public var foregroundAlpha:CGFloat = 0.0
         
         /**
-        *  Corner radius for loader
-        */
+         *  Corner radius for loader
+         */
         public var cornerRadius : CGFloat = 10.0
         
         public init() {}
         
     }
 }
+
