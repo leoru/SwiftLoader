@@ -34,12 +34,12 @@ public class SwiftLoader: UIView {
         
         let loader = SwiftLoader.sharedInstance
         
-        let height : CGFloat = UIScreen.mainScreen().bounds.size.height
-        let width : CGFloat = UIScreen.mainScreen().bounds.size.width
+        let height : CGFloat = UIScreen.main.bounds.size.height
+        let width : CGFloat = UIScreen.main.bounds.size.width
         let center : CGPoint = CGPoint(x: width / 2.0, y: height / 2.0)
         
         loader.center = center
-        loader.coverView?.frame = UIScreen.mainScreen().bounds
+        loader.coverView?.frame = UIScreen.main.bounds
     }
     
     override public var frame : CGRect {
@@ -50,7 +50,7 @@ public class SwiftLoader: UIView {
     
     class var sharedInstance: SwiftLoader {
         struct Singleton {
-            static let instance = SwiftLoader(frame: CGRectMake(0,0,Config().size,Config().size))
+            static let instance = SwiftLoader(frame: CGRect(origin: CGPoint(x: 0,y: 0),size: CGSize(width: Config().size,height: Config().size)))
         }
         return Singleton.instance
     }
@@ -61,9 +61,7 @@ public class SwiftLoader: UIView {
     
     public class func show(title title: String?, animated : Bool) {
         
-        
-        
-        let currentWindow : UIWindow = UIApplication.sharedApplication().keyWindow!
+        let currentWindow : UIWindow = UIApplication.shared.keyWindow!
         
         let loader = SwiftLoader.sharedInstance
         loader.canUpdated = true
@@ -71,19 +69,19 @@ public class SwiftLoader: UIView {
         loader.title = title
         loader.update()
         
-        NSNotificationCenter.defaultCenter().addObserver(loader, selector: #selector(loader.rotated(_:)),
-                                                         name: UIDeviceOrientationDidChangeNotification,
-                                                         object: nil)
+        NotificationCenter.default.addObserver(loader, selector: #selector(loader.rotated(notification: )),
+                                                name: NSNotification.Name.UIDeviceOrientationDidChange,
+                                                object: nil)
         
-        let height : CGFloat = UIScreen.mainScreen().bounds.size.height
-        let width : CGFloat = UIScreen.mainScreen().bounds.size.width
-        let center : CGPoint = CGPointMake(width / 2.0, height / 2.0)
+        let height : CGFloat = UIScreen.main.bounds.size.height
+        let width : CGFloat = UIScreen.main.bounds.size.width
+        let center : CGPoint = CGPoint(x: width / 2.0, y: height / 2.0)
         
         loader.center = center
         
         if (loader.superview == nil) {
             loader.coverView = UIView(frame: currentWindow.bounds)
-            loader.coverView?.backgroundColor = loader.config.foregroundColor.colorWithAlphaComponent(loader.config.foregroundAlpha)
+            loader.coverView?.backgroundColor = loader.config.foregroundColor.withAlphaComponent(loader.config.foregroundAlpha)
             
             currentWindow.addSubview(loader.coverView!)
             currentWindow.addSubview(loader)
@@ -94,7 +92,7 @@ public class SwiftLoader: UIView {
     public class func hide() {
         
         let loader = SwiftLoader.sharedInstance
-        NSNotificationCenter.defaultCenter().removeObserver(loader)
+        NotificationCenter.default.removeObserver(loader)
         
         loader.stop()
     }
@@ -102,7 +100,7 @@ public class SwiftLoader: UIView {
     public class func setConfig(config : Config) {
         let loader = SwiftLoader.sharedInstance
         loader.config = config
-        loader.frame = CGRectMake(0,0,loader.config.size,loader.config.size)
+        loader.frame = CGRect(origin: CGPoint(x: 0, y: 0),size: CGSize(width: loader.config.size, height: loader.config.size))
     }
     
     /**
@@ -118,7 +116,7 @@ public class SwiftLoader: UIView {
         self.loadingView?.start()
         
         if (self.animated) {
-            UIView.animateWithDuration(0.3, animations: { () -> Void in
+            UIView.animate(withDuration: 0.3, animations: { () -> Void in
                 self.alpha = 1
                 }, completion: { (finished) -> Void in
                     
@@ -131,7 +129,7 @@ public class SwiftLoader: UIView {
     private func stop() {
         
         if (self.animated) {
-            UIView.animateWithDuration(0.3, animations: { () -> Void in
+            UIView.animate(withDuration: 0.3, animations: { () -> Void in
                 self.alpha = 0
                 }, completion: { (finished) -> Void in
                     self.removeFromSuperview()
@@ -159,20 +157,20 @@ public class SwiftLoader: UIView {
         }
         
         if (self.titleLabel == nil) {
-            self.titleLabel = UILabel(frame: CGRectMake(loaderTitleMargin, loaderSpinnerMarginTop + loadingViewSize, self.frame.width - loaderTitleMargin*2, 42.0))
+            self.titleLabel = UILabel(frame: CGRect(origin: CGPoint(x: loaderTitleMargin, y: loaderSpinnerMarginTop + loadingViewSize), size: CGSize(width: self.frame.width - loaderTitleMargin*2, height:  42.0)))
             self.addSubview(self.titleLabel!)
             self.titleLabel?.numberOfLines = 1
-            self.titleLabel?.textAlignment = NSTextAlignment.Center
+            self.titleLabel?.textAlignment = NSTextAlignment.center
             self.titleLabel?.adjustsFontSizeToFitWidth = true
         } else {
-            self.titleLabel?.frame = CGRectMake(loaderTitleMargin, loaderSpinnerMarginTop + loadingViewSize, self.frame.width - loaderTitleMargin*2, 42.0)
+            self.titleLabel?.frame = CGRect(origin: CGPoint(x: loaderTitleMargin, y: loaderSpinnerMarginTop + loadingViewSize), size: CGSize(width: self.frame.width - loaderTitleMargin*2, height: 42.0))
         }
         
         self.titleLabel?.font = self.config.titleTextFont
         self.titleLabel?.textColor = self.config.titleTextColor
         self.titleLabel?.text = self.title
         
-        self.titleLabel?.hidden = self.title == nil
+        self.titleLabel?.isHidden = self.title == nil
     }
     
     func frameForSpinner() -> CGRect {
@@ -180,9 +178,9 @@ public class SwiftLoader: UIView {
         
         if (self.title == nil) {
             let yOffset = (self.frame.size.height - loadingViewSize) / 2
-            return CGRectMake(loaderSpinnerMarginSide, yOffset, loadingViewSize, loadingViewSize)
+            return CGRect(origin: CGPoint(x: loaderSpinnerMarginSide, y: yOffset), size: CGSize(width: loadingViewSize, height: loadingViewSize))
         }
-        return CGRectMake(loaderSpinnerMarginSide, loaderSpinnerMarginTop, loadingViewSize, loadingViewSize)
+        return CGRect(origin: CGPoint(x: loaderSpinnerMarginSide, y: loaderSpinnerMarginTop), size: CGSize(width: loadingViewSize, height: loadingViewSize))
     }
     
     override init(frame: CGRect) {
@@ -205,7 +203,7 @@ public class SwiftLoader: UIView {
         private var backgroundLayer : CAShapeLayer?
         private var isSpinning : Bool?
         
-        private var config : Config = Config() {
+        var config : Config = Config() {
             didSet {
                 self.update()
             }
@@ -224,39 +222,39 @@ public class SwiftLoader: UIView {
          Setup loading view
          */
         
-        private func setup() {
-            self.backgroundColor = UIColor.clearColor()
+        func setup() {
+            self.backgroundColor = UIColor.clear
             self.lineWidth = fmaxf(Float(self.frame.size.width) * 0.025, 1)
             
             self.backgroundLayer = CAShapeLayer()
-            self.backgroundLayer?.strokeColor = self.config.spinnerColor.CGColor
-            self.backgroundLayer?.fillColor = self.backgroundColor?.CGColor
+            self.backgroundLayer?.strokeColor = self.config.spinnerColor.cgColor
+            self.backgroundLayer?.fillColor = self.backgroundColor?.cgColor
             self.backgroundLayer?.lineCap = kCALineCapRound
             self.backgroundLayer?.lineWidth = CGFloat(self.lineWidth!)
             self.layer.addSublayer(self.backgroundLayer!)
         }
         
-        private func update() {
+        func update() {
             self.lineWidth = self.config.spinnerLineWidth
             self.speed = self.config.speed
             
             self.backgroundLayer?.lineWidth = CGFloat(self.lineWidth!)
-            self.backgroundLayer?.strokeColor = self.config.spinnerColor.CGColor
+            self.backgroundLayer?.strokeColor = self.config.spinnerColor.cgColor
         }
         
         /**
          Draw Circle
          */
         
-        override func drawRect(rect: CGRect) {
+        override func draw(_ rect: CGRect) {
             self.backgroundLayer?.frame = self.bounds
         }
         
-        private func drawBackgroundCircle(partial : Bool) {
+        func drawBackgroundCircle(partial : Bool) {
             let startAngle : CGFloat = CGFloat(M_PI) / CGFloat(2.0)
             var endAngle : CGFloat = (2.0 * CGFloat(M_PI)) + startAngle
             
-            let center : CGPoint = CGPointMake(self.bounds.size.width / 2, self.bounds.size.height / 2)
+            let center : CGPoint = CGPoint(x: self.bounds.size.width / 2,y: self.bounds.size.height / 2)
             let radius : CGFloat = (CGFloat(self.bounds.size.width) - CGFloat(self.lineWidth!)) / CGFloat(2.0)
             
             let processBackgroundPath : UIBezierPath = UIBezierPath()
@@ -266,28 +264,28 @@ public class SwiftLoader: UIView {
                 endAngle = (1.8 * CGFloat(M_PI)) + startAngle
             }
             
-            processBackgroundPath.addArcWithCenter(center, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: true)
-            self.backgroundLayer?.path = processBackgroundPath.CGPath;
+            processBackgroundPath.addArc(withCenter: center, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: true)
+            self.backgroundLayer?.path = processBackgroundPath.cgPath;
         }
         
         /**
          Start and stop spinning
          */
         
-        private func start() {
+        func start() {
             self.isSpinning? = true
-            self.drawBackgroundCircle(true)
+            self.drawBackgroundCircle(partial: true)
             
             let rotationAnimation : CABasicAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
-            rotationAnimation.toValue = NSNumber(double: M_PI * 2.0)
-            rotationAnimation.duration = CFTimeInterval(speed!);
-            rotationAnimation.cumulative = true;
+            rotationAnimation.toValue = NSNumber(value: M_PI * 2.0)
+            rotationAnimation.duration = 1;
+            rotationAnimation.isCumulative = true;
             rotationAnimation.repeatCount = HUGE;
-            self.backgroundLayer?.addAnimation(rotationAnimation, forKey: "rotationAnimation")
+            self.backgroundLayer?.add(rotationAnimation, forKey: "rotationAnimation")
         }
         
-        private func stop() {
-            self.drawBackgroundCircle(false)
+        func stop() {
+            self.drawBackgroundCircle(partial: false)
             
             self.backgroundLayer?.removeAllAnimations()
             self.isSpinning? = false
@@ -308,7 +306,7 @@ public class SwiftLoader: UIView {
         /**
          *  Color of spinner view
          */
-        public var spinnerColor = UIColor.blackColor()
+        public var spinnerColor = UIColor.black
         
         /**
          *  S
@@ -318,7 +316,7 @@ public class SwiftLoader: UIView {
         /**
          *  Color of title text
          */
-        public var titleTextColor = UIColor.blackColor()
+        public var titleTextColor = UIColor.black
         
         /**
          *  Speed of the spinner
@@ -328,17 +326,17 @@ public class SwiftLoader: UIView {
         /**
          *  Font for title text in loader
          */
-        public var titleTextFont : UIFont = UIFont.boldSystemFontOfSize(16.0)
+        public var titleTextFont : UIFont = UIFont.boldSystemFont(ofSize: 16.0)
         
         /**
          *  Background color for loader
          */
-        public var backgroundColor = UIColor.whiteColor()
+        public var backgroundColor = UIColor.white
         
         /**
          *  Foreground color
          */
-        public var foregroundColor = UIColor.clearColor()
+        public var foregroundColor = UIColor.clear
         
         /**
          *  Foreground alpha CGFloat, between 0.0 and 1.0
