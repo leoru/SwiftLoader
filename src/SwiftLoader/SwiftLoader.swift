@@ -30,7 +30,7 @@ public class SwiftLoader: UIView {
         }
     }
     
-    func rotated(notification: NSNotification) {
+    @objc func rotated(notification: NSNotification) {
         
         let loader = SwiftLoader.sharedInstance
         
