@@ -10,31 +10,32 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    func delay(seconds seconds: Double, completion:()->()) {
-        let popTime = dispatch_time(DISPATCH_TIME_NOW, Int64( Double(NSEC_PER_SEC) * seconds ))
+    func delay(seconds: Double, completion:@escaping ()->()) {
         
-        dispatch_after(popTime, dispatch_get_main_queue()) {
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
             completion()
         }
+       
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = UIColor(red:0.98, green:0.93, blue:0.81, alpha:1)
+        self.view.backgroundColor = UIColor.white
         self.addButton()
     }
     
     func addButton() {
         let size : CGFloat = 200.0
-        let actionButton = UIButton(frame: CGRectMake((self.view.frame.width - size) / 2, size, size, size))
-        actionButton.setTitleColor(UIColor(red:0.52, green:0.07, blue:0.72, alpha:1), forState: UIControlState.Normal)
-        actionButton.addTarget(self, action: Selector("actionShowLoader"), forControlEvents: UIControlEvents.TouchUpInside)
-        actionButton.setTitle("Show loader", forState: UIControlState.Normal)
+        let actionButton = UIButton(frame: CGRect(x:(self.view.frame.width - size) / 2, y:  size, width:size,height: size))
+        actionButton.setTitleColor(UIColor(red:0.52, green:0.07, blue:0.72, alpha:1), for: UIControl.State.normal)
+        actionButton.addTarget(self, action:  #selector(actionShowLoader), for: UIControl.Event.touchUpInside)
+        actionButton.setTitle("Show loader", for: UIControl.State.normal)
         self.view.addSubview(actionButton)
     }
     
-    func actionShowLoader() {
+    @objc func actionShowLoader() {
         
         var config : SwiftLoader.Config = SwiftLoader.Config()
         config.size = 170
@@ -42,11 +43,11 @@ class ViewController: UIViewController {
         config.spinnerColor = UIColor(red:0.88, green:0.26, blue:0.18, alpha:1)
         config.titleTextColor = UIColor(red:0.88, green:0.26, blue:0.18, alpha:1)
         config.spinnerLineWidth = 2.0
-        config.foregroundColor = UIColor.blackColor()
+        config.foregroundColor = UIColor.black
         config.foregroundAlpha = 0.5
         
         
-        SwiftLoader.setConfig(config)
+        SwiftLoader.setConfig(config: config)
         
         SwiftLoader.show(animated: true)
         
