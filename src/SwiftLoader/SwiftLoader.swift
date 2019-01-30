@@ -70,7 +70,7 @@ public class SwiftLoader: UIView {
         loader.update()
         
         NotificationCenter.default.addObserver(loader, selector: #selector(loader.rotated(notification: )),
-                                                name: NSNotification.Name.UIDevice.orientationDidChangeNotification,
+                                                name: UIDevice.orientationDidChangeNotification,
                                                 object: nil)
         
         let height : CGFloat = UIScreen.main.bounds.size.height
