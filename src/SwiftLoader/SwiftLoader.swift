@@ -70,7 +70,7 @@ public class SwiftLoader: UIView {
         loader.update()
         
         NotificationCenter.default.addObserver(loader, selector: #selector(loader.rotated(notification: )),
-                                                name: NSNotification.Name.UIDeviceOrientationDidChange,
+                                                name: NSNotification.Name.UIDevice.orientationDidChangeNotification,
                                                 object: nil)
         
         let height : CGFloat = UIScreen.main.bounds.size.height
@@ -229,7 +229,7 @@ public class SwiftLoader: UIView {
             self.backgroundLayer = CAShapeLayer()
             self.backgroundLayer?.strokeColor = self.config.spinnerColor.cgColor
             self.backgroundLayer?.fillColor = self.backgroundColor?.cgColor
-            self.backgroundLayer?.lineCap = kCALineCapRound
+            self.backgroundLayer?.lineCap = CAShapeLayerLineCap.round
             self.backgroundLayer?.lineWidth = CGFloat(self.lineWidth!)
             self.layer.addSublayer(self.backgroundLayer!)
         }
