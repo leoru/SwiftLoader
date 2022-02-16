@@ -1,7 +1,8 @@
 # SwiftLoader
 SwiftLoader is a simple and beautiful activity indicator written in Swift.
 
-###Example
+## Example
+
 <img src="https://raw.githubusercontent.com/leoru/SwiftLoader/master/images/loadergif.gif">
 
 
