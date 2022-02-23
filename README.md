@@ -1,5 +1,5 @@
 # SwiftLoader
-SwiftLoader is a simple and beautiful activity indicator written in Swift.
+SwiftLoader is a simple and beautiful activity indicator.
 
 ## Example
 
@@ -61,9 +61,8 @@ and set new config for SwiftLoader:
 SwiftSpinner is available through CocoaPods. To install it, simply add the following line to your Podfile:
 
 ```swift
-pod 'SwiftLoader'
+pod 'SwiftLoader', '1.0.0'
 ```
-NB: Currently Swift CocoaPods work only with 0.36 pre-release version. If you want to learn how to install a Swift cocoapod read more here: http://blog.cocoapods.org/Pod-Authors-Guide-to-CocoaPods-Frameworks/
 
 In case you don’t want to use CocoaPods - just copy the file SwiftLoader/SwiftLoader.swift to your Xcode project.
 
@@ -72,4 +71,4 @@ In case you don’t want to use CocoaPods - just copy the file SwiftLoader/Swift
 
 ## License
 
-SwiftLoader is available under the MIT license. See the LICENSE file for more info.
+SwiftLoader is available under the MIT license.
