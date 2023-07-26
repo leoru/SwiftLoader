@@ -71,12 +71,11 @@ pod 'SwiftLoader', '1.1.0'
 
 Add as a dependecy to your Swift Package
 
+```swift
 dependencies: [
   .package(url: "https://github.com/leoru/SwiftLoader.git", branch: "master")
 ]
-
-
-In case you don’t want to use CocoaPods - just copy the file SwiftLoader/SwiftLoader.swift to your Xcode project.
+```
 
 ### Maintainers
 - [Kirill Kunst](https://github.com/leoru) ([@kirill_kunst](https://twitter.com/kirill_kunst))
