@@ -58,11 +58,23 @@ and set new config for SwiftLoader:
 
 
 ## Install
+
+### CocoaPods
+
 SwiftSpinner is available through CocoaPods. To install it, simply add the following line to your Podfile:
 
 ```swift
-pod 'SwiftLoader', '1.0.0'
+pod 'SwiftLoader', '1.1.0'
 ```
+
+### Swift Package Manager
+
+Add as a dependecy to your Swift Package
+
+dependencies: [
+  .package(url: "https://github.com/leoru/SwiftLoader.git", branch: "master")
+]
+
 
 In case you don’t want to use CocoaPods - just copy the file SwiftLoader/SwiftLoader.swift to your Xcode project.
 

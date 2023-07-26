@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "SwiftLoader"
-  s.version          = "1.0.0"
+  s.version          = "1.1.0"
   s.summary          = "A simple and beautiful activity indicator"
   s.description      = <<-DESC
   SwiftLoader is a simple and beautiful activity indicator written in Swift.
@@ -14,6 +14,6 @@ Pod::Spec.new do |s|
   s.swift_version    = '5.0'
   s.platform         = :ios, '13.0'
   s.requires_arc     = true
-  s.source_files     = 'src/SwiftLoader'
+  s.source_files     = 'Sources/SwiftLoader/SwiftLoader'
   s.frameworks       = 'UIKit'
 end
